@@ -1,0 +1,3 @@
+/home/kridtina/Рабочий стол/biblioteki_graficzne/lab_malpka/build/CMakeFiles/malpka.dir
+/home/kridtina/Рабочий стол/biblioteki_graficzne/lab_malpka/build/CMakeFiles/edit_cache.dir
+/home/kridtina/Рабочий стол/biblioteki_graficzne/lab_malpka/build/CMakeFiles/rebuild_cache.dir
