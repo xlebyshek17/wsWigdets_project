@@ -50,8 +50,9 @@ class MyFrame : public wxFrame
 		// Virtual event handlers, override them in your derived class
 		virtual void m_panelOnPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void m_panelOnSize( wxSizeEvent& event ) { event.Skip(); }
+		virtual void m_button_writeOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_checkBox_bananaOnCheckBox( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_scrollBarOnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_scrollBarOnScroll( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_button_colorOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_textCtrlOnText( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_choice_figuraOnChoice( wxCommandEvent& event ) { event.Skip(); }

@@ -4,17 +4,11 @@ MalpkaMyFrame::MalpkaMyFrame( wxWindow* parent )
 :
 MyFrame( parent )
 {
+    this->SetMinSize( wxSize( 800, 500 ) );
+
     m_starColour = *wxBLACK;
     m_scrollBar->Enable(false);
-    m_panel->Bind(wxEVT_SIZE, &MalpkaMyFrame::m_panelOnSize, this);
-    m_panel->Bind(wxEVT_PAINT, &MalpkaMyFrame::m_panelOnPaint, this);
-    m_panel->Bind(wxEVT_CHOICE, &MalpkaMyFrame::m_choice_figuraOnChoice, this);
-    m_button_color->Bind(wxEVT_BUTTON, &MalpkaMyFrame::m_button_colorOnButtonClick, this);
-    m_textCtrl->Bind(wxEVT_TEXT, &MalpkaMyFrame::m_textCtrlOnText, this);
-    m_checkBox_banana->Bind(wxEVT_CHECKBOX, &MalpkaMyFrame::m_checkBox_bananaOnCheckBox, this);
-    m_scrollBar->Bind(wxEVT_SCROLL_CHANGED, &MalpkaMyFrame::m_scrollBarOnScroll, this);
-    m_scrollBar->Bind(wxEVT_SCROLL_THUMBTRACK, &MalpkaMyFrame::m_scrollBarOnScroll, this); // KLUCZOWE: Podczas przeciągania
-    m_scrollBar->Bind(wxEVT_SCROLL_THUMBRELEASE, &MalpkaMyFrame::m_scrollBarOnScroll, this);
+    m_scrollBar->SetScrollbar(0, 0, 100, 10);
 
     wxImage bananImage;
     if (bananImage.LoadFile("banan.png", wxBITMAP_TYPE_PNG))
@@ -51,12 +45,78 @@ m_panel->Refresh();
 event.Skip();
 }
 
+void MalpkaMyFrame::m_button_writeOnButtonClick( wxCommandEvent& event )
+{
+    wxFileDialog saveFileDialog(this, 
+                                _("Zapisz obrazek PNG"), "", "",
+                                "Pliki PNG (*.png)|*.png",
+                                wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+    if (saveFileDialog.ShowModal() == wxID_OK)
+    {
+        wxString path = saveFileDialog.GetPath();
+        wxSize panelSize = m_panel->GetClientSize();
+        
+        wxBitmap bitmap(panelSize.GetWidth(), panelSize.GetHeight());
+        wxMemoryDC memoryDC;
+        memoryDC.SelectObject(bitmap);
+        
+        memoryDC.SetBackground(m_panel->GetBackgroundColour());
+        memoryDC.Clear();
+
+        int x_center = panelSize.GetWidth() / 2;
+        int y_center = panelSize.GetHeight() / 2;
+        int delta_y = 50;
+        memoryDC.SetDeviceOrigin(x_center, y_center - delta_y);
+
+        DrawMonkey(memoryDC);
+        
+        wxPoint symbolPos(-150, -100);
+        int sz = 50;
+        DrawGraphicSymbol(memoryDC, symbolPos.x, symbolPos.y, sz);
+        
+        DrawTextElements(memoryDC);
+
+        memoryDC.SelectObject(wxNullBitmap); 
+
+        wxImage image = bitmap.ConvertToImage();
+        
+        if (image.IsOk()) 
+        {
+            if (image.SaveFile(path, wxBITMAP_TYPE_PNG))
+            {
+                wxMessageBox(_("Rysunek pomyslnie zapisano do pliku!"), _("Zapis zakonczony"), wxOK | wxICON_INFORMATION);
+            }
+            else
+            {
+                wxMessageBox(_("Błąd zapisu pliku."), _("Błąd"), wxOK | wxICON_ERROR);
+            }
+        } else {
+             wxMessageBox(_("Błąd konwersji obrazu."), _("Błąd"), wxOK | wxICON_ERROR);
+        }
+    }
+}
+
 void MalpkaMyFrame::m_checkBox_bananaOnCheckBox( wxCommandEvent& event )
 {
 m_hasBanana = event.IsChecked();
 
 m_scrollBar->Enable(m_hasBanana);
 
+m_panel->Refresh();
+}
+
+void MalpkaMyFrame::m_scrollBarOnScroll( wxScrollEvent& event )
+{
+int scrollPos = m_scrollBar->GetThumbPosition();
+
+const double START_ANGLE = 0.0;
+const double END_ANGLE = 85.0;
+const double RANGE = END_ANGLE - START_ANGLE;
+
+m_bananaAngle = START_ANGLE + (scrollPos / 100.0) * RANGE;
+
+m_gauge->SetValue(scrollPos);
 m_panel->Refresh();
 }
 
@@ -84,54 +144,6 @@ m_panel->Refresh();
 }
 
 
-void MalpkaMyFrame::DrawSun(wxDC& dc, int x, int y, int size) 
-{
-    int radius = size;
-    
-    dc.SetPen(*wxYELLOW_PEN);
-    dc.SetBrush(*wxYELLOW_BRUSH);
-
-    dc.DrawCircle(x, y, radius);
-}
-
-void MalpkaMyFrame::DrawTextElements(wxDC& dc)
-{
-    wxString textToDraw = m_textCtrl->GetValue();
-
-    if (textToDraw.IsEmpty()) {
-        return;
-    }
-
-    wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    dc.SetFont(font);
-
-    dc.SetTextForeground(*wxBLACK);
-
-    dc.DrawText(textToDraw, -150, 200);
-
-    wxFont font1(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-    dc.SetFont(font1);
-
-    int angle = 90; // Obrót o 90 stopni (w pionie)
-    dc.DrawRotatedText(textToDraw, 200, 50, angle);
-
-}
-
-void MalpkaMyFrame::m_scrollBarOnScroll( wxScrollEvent& event )
-{
-    int scrollPos = m_scrollBar->GetThumbPosition();
-
-    const double MIN_ANGLE = 32.0;
-
-    const double RANGE = -122.0;
-
-    m_bananaAngle = MIN_ANGLE + (scrollPos / 100.0) * RANGE;
-
-    m_gauge->SetValue(scrollPos);
-
-    m_panel->Refresh();
-}
-
 void MalpkaMyFrame::DrawStar(wxDC& dc, int x, int y, int size)
 {
     const int NUM_POINTS = 10;
@@ -157,6 +169,39 @@ void MalpkaMyFrame::DrawStar(wxDC& dc, int x, int y, int size)
     dc.DrawPolygon(NUM_POINTS, points);
 }
 
+void MalpkaMyFrame::DrawTextElements(wxDC& dc)
+{
+    wxString textToDraw = m_textCtrl->GetValue();
+
+    if (textToDraw.IsEmpty()) {
+        return;
+    }
+
+    wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    dc.SetFont(font);
+
+    dc.SetTextForeground(*wxBLACK);
+
+    dc.DrawText(textToDraw, -150, 200);
+
+    wxFont font1(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    dc.SetFont(font1);
+
+    int angle = 90; // Obrót o 90 stopni (w pionie)
+    dc.DrawRotatedText(textToDraw, 200, 50, angle);
+
+}
+
+void MalpkaMyFrame::DrawSun(wxDC& dc, int x, int y, int size) 
+{
+    int radius = size;
+    
+    dc.SetPen(*wxYELLOW_PEN);
+    dc.SetBrush(*wxYELLOW_BRUSH);
+
+    dc.DrawCircle(x, y, radius);
+}
+
 void MalpkaMyFrame::DrawGraphicSymbol(wxDC& dc, int x, int y, int size)
 {
     int selection = m_choice_figura->GetSelection();
@@ -176,7 +221,9 @@ void MalpkaMyFrame::DrawGraphicSymbol(wxDC& dc, int x, int y, int size)
 
 void MalpkaMyFrame::DrawMonkey(wxDC& dc) 
 {
-    dc.SetPen(*wxBLACK_PEN);
+    const int LINE_THICKNESS = 2; 
+    wxPen thickPen(*wxBLACK, LINE_THICKNESS); 
+    dc.SetPen(thickPen);
 
     // Wymiary pomocnicze
     const int BODY_LEN = 150;
@@ -186,54 +233,47 @@ void MalpkaMyFrame::DrawMonkey(wxDC& dc)
     int Fx = 0;
     int Fy = -30;
 
-    // Rysowanie podstawy (tułów, nogi, lewa ręka)
     dc.DrawLine(0, 0, 0, BODY_LEN / 2);
     dc.DrawLine(0, BODY_LEN / 2, -25, BODY_LEN); 
     dc.DrawLine(0, BODY_LEN / 2, 25, BODY_LEN);
-    dc.DrawLine(0, 0, 25, ARM_SPAN); // Lewa ręka (stała)
+    dc.DrawLine(0, 0, 25, ARM_SPAN); // Lewa ręka 
 
     // Głowa i oczy
     dc.DrawCircle(0, -30, HEAD_RAD);
     dc.DrawCircle(-10, HEAD_Y - 5, 2);
     dc.DrawCircle( 10, HEAD_Y - 5, 2);
 
-    // --- LOGIKA PRAWEJ RĘKI (ZMIENNA) I MINY ---
+    const double BASE_ANGLE_RAD = 32.0 * M_PI / 180.0;
+    double angleRad = BASE_ANGLE_RAD + (m_bananaAngle * M_PI / 180.0);
+    double Py = (double)ARM_SPAN; 
 
-    if (m_hasBanana) // Banan jest zaznaczony (ręka musi się obracać i jest wesoła)
+    int x_end = (int)(0 - Py * sin(angleRad));
+    int y_end = (int)(0 + Py * cos(angleRad)); 
+
+    // Rysowanie obróconej łapki
+    dc.DrawLine(0, 0, x_end - 3, y_end + 8);
+
+    if (m_hasBanana)
     {
-        // 1. Radosna mina
+        // Radosna mina
         int mouthWidth = 16;
         int mouthHeight = 10;
         int mouthX = Fx - (mouthWidth / 2);
         int mouthY = Fy + 5; 
         dc.DrawEllipticArc(mouthX, mouthY - mouthHeight, mouthWidth, mouthHeight, 180, 360);
 
-        // 2. Obliczenie obróconej łapki (współrzędne)
-        const double BASE_ANGLE_RAD = 32.0 * M_PI / 180.0;
-        double angleRad = BASE_ANGLE_RAD + (m_bananaAngle * M_PI / 180.0);
-        double Py = (double)ARM_SPAN; 
-
-        int x_end = (int)(0 - Py * sin(angleRad));
-        int y_end = (int)(0 + Py * cos(angleRad)); 
-
-        // Rysowanie obróconej łapki
-        dc.DrawLine(0, 0, x_end, y_end);
-        std::cout << x_end << " " << y_end << " " << angleRad << std::endl;
-
-        // 3. Rysowanie Banana
         if (m_bananaBitmap.GetWidth() > 0)
         {
             int bW = m_bananaBitmap.GetWidth();
             int bH = m_bananaBitmap.GetHeight();
             
-            // Banan wyśrodkowany na końcu ramienia, a nie przesunięty o -50
             int bananaX = x_end - bW;
             int bananaY = y_end - bH / 2;
             
             dc.DrawBitmap(m_bananaBitmap, bananaX, bananaY, true); 
         }
     }
-    else // Bez banana (standardowa, smutna mina, stała prawa ręka)
+    else // Bez banana 
     {
         // Smutna mina
         int mouthWidth = 16;
@@ -241,9 +281,6 @@ void MalpkaMyFrame::DrawMonkey(wxDC& dc)
         int mouthX = Fx - (mouthWidth / 2);
         int mouthY = Fy + 5;           
         dc.DrawEllipticArc(mouthX, mouthY, mouthWidth, mouthHeight, 0,  180);
-
-        // Prawa ręka (stała)
-        dc.DrawLine(0, 0, -25, ARM_SPAN);
     }
 }
 
@@ -257,7 +294,7 @@ void MalpkaMyFrame::DrawMoon(wxDC& dc, int x, int y, int size)
     
     wxColour moonColor(192, 192, 192);
     
-    dc.SetPen(*wxBLACK_PEN); // Czarny kontur
+    dc.SetPen(*wxBLACK_PEN);
     dc.SetBrush(wxBrush(moonColor)); 
 
     // Pierwsze koło (Księżyc)

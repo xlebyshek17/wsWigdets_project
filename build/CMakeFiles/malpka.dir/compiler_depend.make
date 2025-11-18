@@ -837,7 +837,19 @@ CMakeFiles/malpka.dir/MalpkaMyFrame.cpp.o: ../MalpkaMyFrame.cpp \
   /usr/include/wx-3.0/wx/sharedptr.h \
   /usr/include/wx-3.0/wx/atomic.h \
   /usr/include/wx-3.0/wx/gtk/dialog.h \
-  /usr/include/wx-3.0/wx/graphics.h
+  /usr/include/wx-3.0/wx/graphics.h \
+  /usr/include/wx-3.0/wx/filedlg.h \
+  /usr/include/wx-3.0/wx/gtk/filedlg.h \
+  /usr/include/wx-3.0/wx/gtk/filectrl.h \
+  /usr/include/wx-3.0/wx/filectrl.h \
+  /usr/include/wx-3.0/wx/dcbuffer.h \
+  /usr/include/wx-3.0/wx/dcmemory.h \
+  /usr/include/wx-3.0/wx/wfstream.h \
+  /usr/include/wx-3.0/wx/ffile.h \
+  /usr/include/wx-3.0/wx/msgdlg.h \
+  /usr/include/wx-3.0/wx/stockitem.h \
+  /usr/include/wx-3.0/wx/generic/msgdlgg.h \
+  /usr/include/wx-3.0/wx/gtk/msgdlg.h
 
 CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
   /usr/include/stdc-predef.h \
@@ -1355,16 +1367,13 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
   /usr/include/wx-3.0/wx/colordlg.h \
   /usr/include/wx-3.0/wx/colourdata.h \
   /usr/include/wx-3.0/wx/gtk/colordlg.h \
-  /usr/include/wx-3.0/wx/graphics.h
+  /usr/include/wx-3.0/wx/graphics.h \
+  /usr/include/wx-3.0/wx/dcbuffer.h \
+  /usr/include/wx-3.0/wx/wfstream.h \
+  /usr/include/wx-3.0/wx/ffile.h
 
 
 /usr/include/wx-3.0/wx/gtk/mdi.h:
-
-/usr/include/wx-3.0/wx/gtk/filectrl.h:
-
-/usr/include/wx-3.0/wx/gtk/filedlg.h:
-
-/usr/include/wx-3.0/wx/filedlg.h:
 
 /usr/include/wx-3.0/wx/valtext.h:
 
@@ -1384,10 +1393,6 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/wx-3.0/wx/gtk/scrolwin.h:
 
-/usr/include/wx-3.0/wx/filectrl.h:
-
-/usr/include/wx-3.0/wx/scrolwin.h:
-
 /usr/include/wx-3.0/wx/slider.h:
 
 /usr/include/wx-3.0/wx/radiobox.h:
@@ -1403,10 +1408,6 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
 /usr/include/wx-3.0/wx/bmpbuttn.h:
 
 /usr/include/wx-3.0/wx/dataobj.h:
-
-/usr/include/wx-3.0/wx/stockitem.h:
-
-/usr/include/wx-3.0/wx/msgdlg.h:
 
 /usr/include/wx-3.0/wx/menu.h:
 
@@ -1430,10 +1431,6 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/signum-generic.h:
 
-/usr/include/x86_64-linux-gnu/sys/ucontext.h:
-
-/usr/include/wx-3.0/wx/unix/app.h:
-
 /usr/include/wx-3.0/wx/init.h:
 
 /usr/include/wx-3.0/wx/cmdargs.h:
@@ -1447,6 +1444,28 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
 /usr/include/wx-3.0/wx/wx.h:
 
 ../main.cpp:
+
+/usr/include/wx-3.0/wx/stockitem.h:
+
+/usr/include/wx-3.0/wx/msgdlg.h:
+
+/usr/include/x86_64-linux-gnu/sys/ucontext.h:
+
+/usr/include/wx-3.0/wx/unix/app.h:
+
+/usr/include/wx-3.0/wx/dcbuffer.h:
+
+/usr/include/wx-3.0/wx/scrolwin.h:
+
+/usr/include/wx-3.0/wx/filectrl.h:
+
+/usr/include/wx-3.0/wx/gtk/filectrl.h:
+
+/usr/include/wx-3.0/wx/gtk/filedlg.h:
+
+/usr/include/wx-3.0/wx/filedlg.h:
+
+/usr/include/wx-3.0/wx/ffile.h:
 
 /usr/include/wx-3.0/wx/graphics.h:
 
@@ -2185,6 +2204,8 @@ CMakeFiles/malpka.dir/main.cpp.o: ../main.cpp \
 /usr/include/wx-3.0/wx/platform.h:
 
 /usr/include/c++/11/bits/alloc_traits.h:
+
+/usr/include/wx-3.0/wx/wfstream.h:
 
 /usr/include/wx-3.0/wx/variant.h:
 

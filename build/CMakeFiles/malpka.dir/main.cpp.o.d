@@ -366,4 +366,6 @@ CMakeFiles/malpka.dir/main.cpp.o: \
  /usr/include/wx-3.0/wx/imaglist.h \
  /usr/include/wx-3.0/wx/generic/imaglist.h \
  /usr/include/wx-3.0/wx/colordlg.h /usr/include/wx-3.0/wx/colourdata.h \
- /usr/include/wx-3.0/wx/gtk/colordlg.h /usr/include/wx-3.0/wx/graphics.h
+ /usr/include/wx-3.0/wx/gtk/colordlg.h /usr/include/wx-3.0/wx/graphics.h \
+ /usr/include/wx-3.0/wx/dcbuffer.h /usr/include/wx-3.0/wx/wfstream.h \
+ /usr/include/wx-3.0/wx/ffile.h

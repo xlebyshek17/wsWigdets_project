@@ -306,4 +306,11 @@ CMakeFiles/malpka.dir/MalpkaMyFrame.cpp.o: \
  /usr/include/wx-3.0/wx/colourdata.h \
  /usr/include/wx-3.0/wx/gtk/colordlg.h /usr/include/wx-3.0/wx/dialog.h \
  /usr/include/wx-3.0/wx/sharedptr.h /usr/include/wx-3.0/wx/atomic.h \
- /usr/include/wx-3.0/wx/gtk/dialog.h /usr/include/wx-3.0/wx/graphics.h
+ /usr/include/wx-3.0/wx/gtk/dialog.h /usr/include/wx-3.0/wx/graphics.h \
+ /usr/include/wx-3.0/wx/filedlg.h /usr/include/wx-3.0/wx/gtk/filedlg.h \
+ /usr/include/wx-3.0/wx/gtk/filectrl.h /usr/include/wx-3.0/wx/filectrl.h \
+ /usr/include/wx-3.0/wx/dcbuffer.h /usr/include/wx-3.0/wx/dcmemory.h \
+ /usr/include/wx-3.0/wx/wfstream.h /usr/include/wx-3.0/wx/ffile.h \
+ /usr/include/wx-3.0/wx/msgdlg.h /usr/include/wx-3.0/wx/stockitem.h \
+ /usr/include/wx-3.0/wx/generic/msgdlgg.h \
+ /usr/include/wx-3.0/wx/gtk/msgdlg.h

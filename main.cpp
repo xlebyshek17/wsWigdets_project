@@ -20,13 +20,15 @@ IMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit() 
 {
+    wxLocale locale;
+
     wxImage::AddHandler(new wxPNGHandler); 
     wxImage::AddHandler(new wxJPEGHandler);
-    
- //SetProcessDPIAware();
- wxFrame *mainFrame = new MalpkaMyFrame(NULL);
- mainFrame->Show(true);
- SetTopWindow(mainFrame);
 
- return true;
+    //SetProcessDPIAware();
+    wxFrame *mainFrame = new MalpkaMyFrame(NULL);
+    mainFrame->Show(true);
+    SetTopWindow(mainFrame);
+
+    return true;
 }
